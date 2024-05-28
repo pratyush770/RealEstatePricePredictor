@@ -2,9 +2,13 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import util
-app = Flask(__name__)  # creating the app
+app = Flask(__name__, static_url_path='/client', static_folder='../client')  # creating the app
 CORS(app)
 
+
+@app.route('/')
+def home():
+    return app.send_static_file('app.html')
 @app.route('/get_location_names')  # to call a function we create a routine
 def get_location_names():
     print(util.get_location_names())
@@ -15,7 +19,7 @@ def get_location_names():
     return response
 
 
-@app.route('/get_area_types') 
+@app.route('/get_area_types')
 def get_area_types():
     print(util.get_area_types())
     response = jsonify({

@@ -1,7 +1,7 @@
 // Function to load locations and area types
 function onPageLoad(){
-//     var url = "http://127.0.0.1:5000/get_location_names";  // url through which we are loading location names
-    var url = "/api/get_location_names";  // for nginx
+     var url = "http://127.0.0.1:5000/get_location_names";  // url through which we are loading location names
+//    var url = "/api/get_location_names";  // for nginx
     $.get(url,function(data,status){
         if(data){
             var locations = data.locations;  // gets all the locations names
@@ -14,8 +14,8 @@ function onPageLoad(){
         }
     });
 
-//     var url1 = "http://127.0.0.1:5000/get_area_types";  // url through which we are loading area_types
-    var url1 = "/api/get_area_types";
+     var url1 = "http://127.0.0.1:5000/get_area_types";  // url through which we are loading area_types
+//    var url1 = "/api/get_area_types";
     $.get(url1,function(data,status){
         if(data){
             var area_types = data.area_types;
@@ -49,7 +49,7 @@ function getBalconyValue(){
 
 // Function to predict price
 function predictPrice(){
-    var locationDropdown = document.getElementById('location'); 
+    var locationDropdown = document.getElementById('location');
     var areaDropdown = document.getElementById('area');
     var sqftInput = document.getElementById('total_sqft');
     var size = getBHKValue();
@@ -68,8 +68,8 @@ function predictPrice(){
     console.log("Bathroom :",bath);
     console.log("Balcony :",balcony);
 
-//     var url = "http://127.0.0.1:5000/predict_price";
-    var url = "/api/predict_price";
+     var url = "http://127.0.0.1:5000/predict_price";
+//    var url = "/api/predict_price";
     $.ajax({
         url: url,
         type: 'POST',

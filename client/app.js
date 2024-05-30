@@ -83,7 +83,7 @@ function predictPrice(){
         },
         contentType: 'application/x-www-form-urlencoded',
         success: function(data) {
-            predicted_price.value = data.predicted_price.toString() + " Lakhs";
+            predicted_price.value = data.predicted_price.toString();
         }
     });
 }

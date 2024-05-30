@@ -12,41 +12,43 @@
 <body>
     <div class="background_image"></div>
     <div class="form-container">
-        <form class="p-4 p-md-5 border rounded-3 bg-light">
+        <form id="price-predictor-form" class="p-4 p-md-5 border rounded-3 bg-light">
             <h2 class="mb-5">Pune Real Estate Price Predictor</h2>
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="location" class="form-label">Location</label>
                         <select name="location" id="location" class="form-select" required>
+                            <option value="">Select Location</option>
                             <option value="a">A</option>
                             <option value="b">B</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="size" class="form-label">Size (BHK)</label>
-                        <input type="number" class="form-control" id="size" min="0" max="25" value="0" required>
+                        <input type="number" class="form-control" id="size" min="1" max="25" required>
                     </div>
                     <div class="mb-3">
                         <label for="bathroom" class="form-label">Bathroom</label>
-                        <input type="number" class="form-control" id="bathroom" min="0" max="25" value="0" required>
+                        <input type="number" class="form-control" id="bathroom" min="1" max="25" required>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="area" class="form-label">Area Type</label>
                         <select name="area" id="area" class="form-select" required>
+                            <option value="">Select Area Type</option>
                             <option value="a">A</option>
                             <option value="b">B</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="total_sqft" class="form-label">Total Square Feet</label>
-                        <input type="text" class="form-control" id="total_sqft" placeholder="Enter Total Square Feet" required>
+                        <input type="text" class="form-control" id="total_sqft"  placeholder="Enter Total Square Feet" required>
                     </div>
                     <div class="mb-3">
                         <label for="balcony" class="form-label">Balcony</label>
-                        <input type="number" class="form-control" id="balcony" min="0" max="25" value="0" required>
+                        <input type="number" class="form-control" id="balcony" min="0" max="5" required>
                     </div>
                 </div>
             </div>
@@ -61,5 +63,36 @@
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        function predictPrice() {
+            var form = document.getElementById('price-predictor-form');
+            if (form.checkValidity()) {
+                var location = $("#location").val();
+                var area_type = $("#area").val();
+                var size = $("#size").val();
+                var total_sqft = $("#total_sqft").val();
+                var bathroom = $("#bathroom").val();
+                var balcony = $("#balcony").val();
+
+                $.post("/predict_price", {
+                    location: location,
+                    area_type: area_type,
+                    size: size,
+                    total_sqft: total_sqft,
+                    bath: bathroom,
+                    balcony: balcony
+                }, function(data, status) {
+                    if (status === 'success') {
+                        $("#predicted_price").val(data.predicted_price + " Lakhs");
+                    } else {
+                        alert("Error: " + status);
+                    }
+                });
+            } else {
+                form.reportValidity();
+            }
+        }
+    </script>
 </body>
 </html>
+
